@@ -1,0 +1,278 @@
+version: '3.9'
+
+
+x-common-variables: &mihoyo-variables
+  LD_LIBRARY_PATH: /usr/local/lib:../lib
+  ASAN_OPTIONS: include_if_exists=../lib/asan.options
+
+
+services:
+  mysql:
+    image: mariadb:10.9
+    container_name: {{%game_version%}}-MysqlServer
+    restart: always
+    networks:
+      default:
+        ipv4_address: 172.10.3.100
+    ports:
+      - 3000:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: G4H8H9G4SWT8HJIIUUOI8WR4S89HDF1H151A99EQ19ES6X60G4H8RGF4S9DF1F9
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - ./Database/mysql:/var/lib/mysql
+
+  redis:
+    image: redis:6.2
+    container_name: {{%game_version%}}-RedisServer
+    restart: always
+    networks:
+      default:
+        ipv4_address: 172.10.3.101
+    volumes:
+      - ./Database/redis:/data
+    command: redis-server --save 60 1 --loglevel warning --requirepass G4H8H9G4SWT8HJIIUUOI8WR4S89HDF1H151A99EQ19ES6X60G4H8RGF4S9DF1F9
+
+  nodeserver:
+    image: hk4e/cokeserver
+    container_name: {{%game_version%}}-NodeServer
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.10.3.3
+    expose:
+      - 21121/udp
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - ./Server:/opt/hk4e
+    working_dir: /opt/hk4e/nodeserver
+    environment:
+      <<: *mihoyo-variables
+    command: ./nodeserver -i 1003.3.3.1
+    stop_grace_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+        reservations:
+          cpus: '0.50'
+
+  dbgate:
+    image: hk4e/cokeserver
+    container_name: {{%game_version%}}-Dbgate
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.10.3.4
+    depends_on:
+      - mysql
+      - redis
+      - nodeserver
+    volumes:
+      - ./Server:/opt/hk4e
+    working_dir: /opt/hk4e/dbgate
+    environment:
+      <<: *mihoyo-variables
+    command: ./dbgate -i 1003.4.4.1
+    stop_grace_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+        reservations:
+          cpus: '0.50'
+
+  dispatch:
+    image: hk4e/cokeserver
+    container_name: {{%game_version%}}-Dispatch
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.10.3.5
+    expose:
+      - 21061/udp
+      - 21041
+    ports:
+      - 21041:21041
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - ./Server:/opt/hk4e
+    working_dir: /opt/hk4e/dispatch
+    environment:
+      <<: *mihoyo-variables
+    command: ./dispatch -i 1003.5.5.1
+    stop_grace_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+        reservations:
+          cpus: '0.50'
+
+  gateserver:
+    image: hk4e/cokeserver
+    container_name: {{%game_version%}}-GateServer
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.10.3.1
+    expose:
+      - 21081/udp
+    ports:
+      - 21081:21081/udp
+    depends_on:
+      - dbgate
+    volumes:
+      - ./Server:/opt/hk4e
+    working_dir: /opt/hk4e/gateserver
+    environment:
+      <<: *mihoyo-variables
+    command: ./gateserver -i 1003.1.1.1
+    stop_grace_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+        reservations:
+          cpus: '0.50'
+
+  gameserver:
+    image: hk4e/cokeserver
+    container_name: {{%game_version%}}-GameServer
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.10.3.2
+    expose:
+      - 21111/udp
+    depends_on:
+      - dbgate
+      - nodeserver
+      - gateserver
+    volumes:
+      - ./Server:/opt/hk4e
+    working_dir: /opt/hk4e/gameserver
+    environment:
+      <<: *mihoyo-variables
+    command: ./gameserver -i 1003.2.2.1
+    stop_grace_period: 300s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+        reservations:
+          cpus: '0.50'
+
+  multiserver:
+    image: hk4e/cokeserver
+    container_name: {{%game_version%}}-MultiServer
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.10.3.7
+    depends_on:
+      - dbgate
+      - nodeserver
+    volumes:
+      - ./Server:/opt/hk4e
+    working_dir: /opt/hk4e/multiserver
+    environment:
+      <<: *mihoyo-variables
+    command: ./multiserver -i 1003.7.7.1
+    stop_grace_period: 300s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+        reservations:
+          cpus: '0.50'
+
+  muipserver:
+    image: hk4e/cokeserver
+    container_name: {{%game_version%}}-MuipServer
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.10.3.6
+    expose:
+      - 21051
+    ports:
+      - 21051:21051
+    depends_on:
+      - dbgate
+      - nodeserver
+    volumes:
+      - ./Server:/opt/hk4e
+    working_dir: /opt/hk4e/muipserver
+    environment:
+      <<: *mihoyo-variables
+    command: ./muipserver -i 1003.6.6.1
+    stop_grace_period: 300s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+        reservations:
+          cpus: '0.50'
+
+  oaserver:
+    image: hk4e/cokeserver
+    container_name: {{%game_version%}}-OaServer
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.10.3.9
+    expose:
+      - 21091
+    ports:
+      - 21091:21091
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - ./Server:/opt/hk4e
+    working_dir: /opt/hk4e/oaserver
+    environment:
+      <<: *mihoyo-variables
+    command: ./oaserver -i 1003.9.9.1
+    stop_grace_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+        reservations:
+          cpus: '0.50'
+
+  sdkserver:
+    image: hk4e/cokeserver
+    container_name: {{%game_version%}}-SDKServer
+    restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: 172.10.3.253
+    ports:
+      - 21000:21000
+    volumes:
+      - ./Server:/opt/hk4e/
+    working_dir: /opt/hk4e/sdkserver
+    command: python3 main.py serve
+
+  importserver:
+      build: ./Settings/Database-Import
+      container_name: {{%game_version%}}-RecoverServer
+      networks:
+        default:
+          ipv4_address: 172.10.3.250
+      volumes:
+        - .:/app
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.10.3.0/24
+          gateway: 172.10.3.254
