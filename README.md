@@ -14,3 +14,4 @@
 - 使用Ubuntu22.04最佳，执行脚本即可
 
 # 注意！这只是一个模板，具体部分还需自己进行调控
+![image](https://github.com/CokeSR/Hk4e-docker-build/blob/CokeSR/Public/images/coke.png)
