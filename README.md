@@ -51,6 +51,8 @@
 ```
 <RSAKeyValue><Modulus>yeF8n3X+VkwIhAdEK6Mp9ZGMW37N9tLWAlRnLkQ/7XccC7fim0LtK4FqEZLgnRvoPj0kWEhi6lWiY8v2gPdkKXhLqyTu/Cc2Ug+Let7U9t6Ez3gIdt3m5p499mbRFhx8ZuvZb6Q9I4++UXYWEfNisWADGOBl5qJD23FnMcTzjis=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>
 ```
+## RecoverServer
+- 在docker-compose中，配置了importserver项，这是用于重置数据库(存档数据也会清除)，请谨慎使用
 
 # 注意！这只是一个模板，具体部分还需自己进行调控
 ![image](https://github.com/CokeSR/Hk4e-docker-build/blob/CokeSR/Public/images/coke.png)
