@@ -1,0 +1,10 @@
+{% extends 'account/base.tmpl' %}
+
+{% block header %}密码找回{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <input type="text" name="email" required="" placeholder="Email">
+    <button type="submit">下一步</button>
+  </form>
+{% endblock %}
