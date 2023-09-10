@@ -42,7 +42,7 @@
 - muip_sign: g5fg5s5ty9h5j9e9f5rw09g5e9fhrg9e4grgss
 
 ## RSAKEY:
-- 你需要获得某些客户端的补丁以继续游戏（公测1.0-2.8版本无须补丁）
+- 你需要获得某些客户端的补丁以继续游戏（公测1.0-2.7版本无须补丁）
 ### Dispatch_key:
 ```
 <RSAKeyValue><Modulus>x6DXVi3/8v/9W0kbDjAi/96yoZG30Fydk7hWxdR4dpqKP0M58aLScwmd49c1i+uUGmGNmSSP0yqH2gFr6QS3yhBTnvQ3cs1UYG/j1PAHUs263pQy5gZay7RW41G+Vm2cL1AzuXpoEQ9JXDpTbOlGwl8pin+enVSYjXAwLrOQKSVRC6vrlnjDX8ozf7mPCC8h7w2XfBfsmuL+K8UvE6KDKQshQYppjDSGi8AtsFScIUmTMmXYPjWdP+gN/iD2M/vjXQAvlunSvXkHgWJ2bo/45cfFbXlxrRfStdri3SC16yFaTR6FbPh+cwci1RSZE/G1yA4hjB4UdYrb/hsYfMpK7w==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>
