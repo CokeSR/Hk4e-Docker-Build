@@ -8,8 +8,11 @@
 
 - 使用前更改所有包含{{%game_version%}}和{{%client_version%}}字段的文件（docker-compose.yml | Setting目录 | start.sh）
 
-# Server目录下导入服务端即可 （常规结构的目录）
-- 使用Ubuntu22.04最佳，执行脚本即可
+# 怎么用(推荐使用Ubuntu22.04来进行)？
+- 创建一个GenshinServer-{{%game_version%}}-Docker-Coke文件夹("{{%game_version%}}"是游戏版本，正确格式：10live)
+- 将[release](https://github.com/CokeSR/Hk4e-docker-build/releases/tag/1.0)解压放入GenshinServer-{{%game_version%}}-Docker-Coke目录下
+- Server目录下放入服务端（常规结构的目录）
+- 执行sudo sh start.sh
 
 # 在正式进入游戏前，你要知道？
 - 在http://{{%YOUR_ADDRESS%}}:21000/account/register中来注册你的游戏账号
