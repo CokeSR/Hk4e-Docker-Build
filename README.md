@@ -7,9 +7,10 @@
 - shell脚本的文件路径和文件名是否正确
 
 - 使用前更改所有包含{{%game_version%}}和{{%client_version%}}字段的文件（docker-compose.yml | Setting目录 | start.sh）
+### {{%game_version%}}和{{%client_version%}}的正确格式例：28live
 
 # 怎么用(推荐使用Ubuntu22.04来进行)？
-- 创建一个GenshinServer-{{%game_version%}}-Docker-Coke文件夹("{{%game_version%}}"是游戏版本，正确格式：10live)
+- 创建一个GenshinServer-{{%game_version%}}-Docker-Coke文件夹
 - 将[release](https://github.com/CokeSR/Hk4e-docker-build/releases/tag/1.0)解压放入GenshinServer-{{%game_version%}}-Docker-Coke目录下
 - Server目录下放入服务端（常规结构的目录）
 - 执行sudo sh start.sh
