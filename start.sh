@@ -20,7 +20,7 @@ echo "私网地址: $internal_ip 公网地址: $outernal_ip"
 
 # unzip GenshinServer_Data & give permission
 # unzip hk4e-Docker.zip
-chmod -R 777 /GenshinServer-Docker
+chmod -R 777 /GenshinServer-{{%game_version%}}-Docker-Coke
 cd ../
 
 # Install docker
@@ -39,7 +39,7 @@ sleep 3s
 
 # Pull & start portainer
 docker pull portainer/portainer-ce
-docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v /GenshinServer-Docker/Portainer:/data --restart=always --name portainer portainer/portainer-ce:latest
+docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v /GenshinServer-{{%game_version%}}-Docker-Coke/Portainer:/data --restart=always --name portainer portainer/portainer-ce:latest
 echo "访问docker可视化管理页面:"
 echo "私网地址: $internal_ip:9000"
 echo "公网地址: $outernal_ip:9000"
@@ -67,14 +67,14 @@ fi
 
 docker compose kill
 docker compose rm
-sudo rm -rf /GenshinServer-Docker/Database/mysql/
-sudo rm -rf /GenshinServer-Docker/Database/redis/
+sudo rm -rf /GenshinServer-{{%game_version%}}-Docker-Coke/Database/mysql/
+sudo rm -rf /GenshinServer-{{%game_version%}}-Docker-Coke/Database/redis/
 
 # Remove all unused networks. Unused networks are those which are not referenced by any containers
 docker network prune -f
-cd /GenshinServer-Docker/
+cd /GenshinServer-{{%game_version%}}-Docker-Coke/
 # Starting build images & pull servers
-sudo sh /GenshinServer-Docker/Settings/Server-Build/Server-Build.sh
+sudo sh /GenshinServer-{{%game_version%}}-Docker-Coke/Settings/Server-Build/Server-Build.sh
 docker build -t hk4e/cokeserver .
 docker compose up -d mysql redis
 docker compose up importserver
@@ -93,7 +93,7 @@ fi
 
 # start service
 docker compose up -d nodeserver dbgate dispatch gateserver gameserver muipserver multiserver sdkserver
-sudo rm -f /GenshinServer-Docker/Settings/Database-Import/sqlfile/coke/data.sql
+sudo rm -f /GenshinServer-{{%game_version%}}-Docker-Coke/Settings/Database-Import/sqlfile/coke/data.sql
 sleep 5s
 clear
 docker ps -a
