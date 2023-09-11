@@ -58,11 +58,11 @@
 ## RecoverServer
 - 在docker-compose中，配置了importserver项，这是用于重置数据库(存档数据也会清除)，请谨慎使用
 - 数据库名称：
-|--------------------------------|
-| {{%game_version%}}-hk4e-config | 
-| {{%game_version%}}-hk4e-user   | 
-| {{%game_version%}}-hk4e-order  |
-| {{%game_version%}}-hk4e-deploy |
+| -------------------------------- |
+|  {{%game_version%}}-hk4e-config  | 
+|  {{%game_version%}}-hk4e-user    | 
+|  {{%game_version%}}-hk4e-order   |
+|  {{%game_version%}}-hk4e-deploy  |
 
 # 注意！这只是一个模板，具体部分还需自己进行调控
 ![image](https://github.com/CokeSR/Hk4e-docker-build/blob/CokeSR/Public/images/coke.png)
