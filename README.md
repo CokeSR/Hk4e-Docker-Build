@@ -64,4 +64,4 @@
 |  {{%game_version%}}-hk4e-order   |   {{%game_version%}}-hk4e-config  |
 
 # 注意！这只是一个模板，具体部分还需自己进行调控
-![image](https://github.com/CokeSR/Hk4e-docker-build/blob/CokeSR/Public/images/coke.png)
+![image](https://github.com/CokeSR/CokeSR/blob/CokeSR/Public/images/hk4e-docker/hk4e-docker.png)
